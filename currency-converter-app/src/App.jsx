@@ -48,7 +48,7 @@ const handleToCurrencyChange = (currency) => setToCurrency(currency);
 const handleAmountChange = (amount) => setAmount(amount);
 
 //Setting variable for getting currencies from the currencyData
-const currencies = currencyData.map(currency => currency.code);
+const getCurrencies = currencyData.map(currency => currency.code);
 
 
   return (
@@ -62,14 +62,14 @@ const currencies = currencyData.map(currency => currency.code);
         label="From"
         value={fromCurrency}
         onChange={handleFromCurrencyChange}
-        currencies={currencies} 
+        currencies={getCurrencies} 
         />
 
        <CurrencySelector 
        label="To"
        value={toCurrency}
        onChange={handleToCurrencyChange}
-       currencies={currencies}
+       currencies={getCurrencies}
        />
 
        <AmountInput value={amount} onChange={handleAmountChange} />
