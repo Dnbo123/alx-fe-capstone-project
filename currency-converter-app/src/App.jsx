@@ -1,35 +1,85 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+//importing necessary dependancies and custom components
 
-function App() {
-  const [count, setCount] = useState(0)
+import React, {useState,useEffect} from 'react'
+import axios from 'axios';
+import CurrencySelector from './components/CurrencySelector.jsx';
+import ConversionResult from './components/ConversionResult.JSX';
+import AmountInput from './components/AmountInput.jsx';
+
+//Definining variables for API keu and URL
+const API_KEY = '3a902d0a157e4c5e795ed257';
+const API_URL =  'https://v6.exchangerate-api.com/v6/${API_KEY}/latest/USD'
+
+//Creating an arrow function
+const App = () => {
+  //Creating state variables
+  const [rates, setRates] = useState({});
+  const [amount, setAmount] = useState(1);
+  const [fromCurrency, setFromCurrency] = useState('USD');
+  const [toCurrency, setToCurrency] = useState('KES');
+  const [error, setError] = useState(null);
+  const [convertedAmount, setConvertedAmount] = useState(null);
+
+//creating useEffect hook that runs once when the component mounts, fetchees and stores Api results in rates states
+useEffect(() => {
+  const fetchRates = async () => {
+    try{
+      const result = await axios.get(`${API_URL}/${API_KEY}/latest/USD`);
+      setRates(result.data.conversion_rates);
+    }catch (error){
+      setError('Failed to get rates. Please try again!')
+    }
+  };
+
+  fetchRates();
+}, []);
+
+//Setting useEffect hook to display conversion rates whenever the amount, currencies, or rates change.
+useEffect(()=>{
+  if (rates[toCurrency]) {
+     const response = (amount * rates[toCurrency]) / rates[fromCurrency];
+     setConvertedAmount(response.toFixed(2)); //sets results to 2 decimal points
+  }
+}, [amount, fromCurrency, toCurrency, rates]);
+
+//setting event hanler functions to update states whenever user input changes
+const handleFromCurrencyChange = (currency) => setFromCurrency(currency);
+const handleToCurrencyChange = (currency) => setToCurrency(currency);
+const handleAmountChange = (amount) => setAmount(amount);
+
+//Setting variable for getting currencies from the currencyData
+const currencies = currencyData.map(currency => currency.code);
+
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <div className={cotainerClass}>
+      <div className="continer mx-auto px-4 py-8">
+        <div className="bg-white dark:bg-gray-800 p-8 rounded-1g shadow-md max-w-md mx-auto">
+        <h1 className="tet-2xl font-bold mb-6 text-center">Don's Currency Converter</h1>
+     {error && <div className="text-red-500 mb-4">{error}</div>}
+     <div className="space-y-4">
+        <CurrencySelector 
+        label="From"
+        value={fromCurrency}
+        onChange={handleFromCurrencyChange}
+        currencies={currencies} 
+        />
+
+       <CurrencySelector 
+       label="To"
+       value={toCurrency}
+       onChange={handleToCurrencyChange}
+       currencies={currencies}
+       />
+
+       <AmountInput value={amount} onChange={handleAmountChange} />
+     
+     
+     </div>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
+    </div>
+    </div>
+  );
+};
 
 export default App
