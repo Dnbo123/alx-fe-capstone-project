@@ -25,7 +25,7 @@ const App = () => {
 useEffect(() => {
   const fetchRates = async () => {
     try{
-      const result = await axios.get(`${API_BASE_URL}/${API_KEY}/latest/USD`);
+      const result = await axios.get(`${API_BASEURL}/${API_KEY}/latest/USD`);
       setRates(result.data.conversion_rates);
     }catch (error){
       setError('Failed to get rates. Please try again!')
