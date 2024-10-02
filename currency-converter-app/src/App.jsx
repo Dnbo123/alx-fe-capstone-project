@@ -5,10 +5,11 @@ import axios from 'axios';
 import CurrencySelector from './components/CurrencySelector.jsx';
 import ConversionResult from './components/ConversionResult.JSX';
 import AmountInput from './components/AmountInput.jsx';
+import HistoricalRates from './components/HistoricalRates.jsx';
 
 //Definining variables for API keu and URL
 const API_KEY = '3a902d0a157e4c5e795ed257';
-const API_URL =  'https://v6.exchangerate-api.com/v6/${API_KEY}/latest/USD'
+const API_BASE_URL =  'https://v6.exchangerate-api.com/v6/${API_KEY}/latest/USD'
 
 //Creating an arrow function
 const App = () => {
@@ -24,7 +25,7 @@ const App = () => {
 useEffect(() => {
   const fetchRates = async () => {
     try{
-      const result = await axios.get(`${API_URL}/${API_KEY}/latest/USD`);
+      const result = await axios.get(`${API_BASE_URL}/${API_KEY}/latest/USD`);
       setRates(result.data.conversion_rates);
     }catch (error){
       setError('Failed to get rates. Please try again!')
@@ -74,7 +75,20 @@ const getCurrencies = currencyData.map(currency => currency.code);
 
        <AmountInput value={amount} onChange={handleAmountChange} />
      
+       <ConversionResult
+              fromCurrency={fromCurrency}
+              toCurrency={toCurrency}
+              amount={amount}
+              convertedAmount={convertedAmount}
+            />
      
+     <HistoricalRates
+              fromCurrency={fromCurrency}
+              toCurrency={toCurrency}
+              apiKey={API_KEY}
+              apiBaseUrl={API_BASE_URL}
+            />
+
      </div>
       </div>
     </div>
