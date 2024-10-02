@@ -6,6 +6,7 @@ import CurrencySelector from './components/CurrencySelector.jsx';
 import ConversionResult from './components/ConversionResult.JSX';
 import AmountInput from './components/AmountInput.jsx';
 import HistoricalRates from './components/HistoricalRates.jsx';
+import DarkMode from './components/DarkMode.jsx';
 
 //Definining variables for API keu and URL
 const API_KEY = '3a902d0a157e4c5e795ed257';
@@ -20,6 +21,7 @@ const App = () => {
   const [toCurrency, setToCurrency] = useState('KES');
   const [error, setError] = useState(null);
   const [convertedAmount, setConvertedAmount] = useState(null);
+  const [isDarkMode, setIsDarkMode] = useState(false);
 
 //creating useEffect hook that runs once when the component mounts, fetchees and stores Api results in rates states
 useEffect(() => {
@@ -47,16 +49,20 @@ useEffect(()=>{
 const handleFromCurrencyChange = (currency) => setFromCurrency(currency);
 const handleToCurrencyChange = (currency) => setToCurrency(currency);
 const handleAmountChange = (amount) => setAmount(amount);
+const handleDarkModeToggle = () => setIsDarkMode(!isDarkMode);
 
 //Setting variable for getting currencies from the currencyData
 const getCurrencies = currencyData.map(currency => currency.code);
 
+//Setting Dynamic class for dark Mode feature
+const darkContainer = `min-h-screen ${isDarkMode ? 'bg-gray-900 text-white' : 'bg-gray-100 text-gray-800'} transition-colors duration-300`;
 
   return (
-    <div className={cotainerClass}>
+    <div className={darkContainer}>
       <div className="continer mx-auto px-4 py-8">
         <div className="bg-white dark:bg-gray-800 p-8 rounded-1g shadow-md max-w-md mx-auto">
         <h1 className="tet-2xl font-bold mb-6 text-center">Don's Currency Converter</h1>
+        <DarkMode isDarkMode={isDarkMode} onToggle={handleDarkModeToggle} />
      {error && <div className="text-red-500 mb-4">{error}</div>}
      <div className="space-y-4">
         <CurrencySelector 
