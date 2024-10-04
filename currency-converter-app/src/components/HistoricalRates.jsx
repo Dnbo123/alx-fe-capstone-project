@@ -14,7 +14,7 @@ useEffect(() => {
     const fetchHistoricalData = async () => {
         try{
             //Creating function to get dates for the last 7 days
-            const dates = Array.from({legnth:7}, (_, i) => {
+            const dates = Array.from({length:7}, (_, i) => {
                 const date = new Date();
                 date.setDate(date.getDate() - i);
                 return date.toISOString().split('T')[0];
@@ -35,7 +35,7 @@ useEffect(() => {
 
                setHistoricalData(formattedData);
                setError(null);
-        } catch (errror) {
+        } catch (error) {
             setError('Failed to Load Historical data. Try again Later');
         }
     };
@@ -48,19 +48,19 @@ if (error) {
 
   return (
     <div className="mt-8">
-       <h2 className="text-lg font-semibold mb-4">Exchange Rate History (Last 7 Days)</h2>
+       <h2 className="text-lg font-semibold mb-4 text-gray-900 dark:text-gray-300">Exchange Rate History (Last 7 Days)</h2>
        {/*Setting up a responsive container html*/}
-       <responsiveContainer width="100%" height={300}>
+       <ResponsiveContainer width="100%" height={300}>
 
         {/*Creating the Line Chart*/}
-           <LineChart Data={historicalData}>
-           <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="date" />
-          <YAxis />
+           <LineChart data={historicalData}>
+           <CartesianGrid strokeDasharray="3 3" stroke="#ddd"/>
+          <XAxis dataKey="date" stroke="#aaa"/>
+          <YAxis stroke="#aaa"/>
           <Tooltip />
           <Line type="monotone" dataKey="rate" stroke="#8884d8" />
            </LineChart>
-       </responsiveContainer>
+       </ResponsiveContainer>
     </div>
   )
 }

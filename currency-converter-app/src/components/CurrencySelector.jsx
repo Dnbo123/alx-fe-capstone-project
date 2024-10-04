@@ -22,7 +22,7 @@ const currencyCodes = [
 ];
 
 //Setting up currency selector arrow function
-const CurrencySelector = ({selectedCurrency, handleCurrency}) => {
+const CurrencySelector = ({selectedCurrency, label, handleCurrency}) => {
 
 //Extract the country code from the selected currency code
 const countryCode = selectedCurrency.substring(0, 2);

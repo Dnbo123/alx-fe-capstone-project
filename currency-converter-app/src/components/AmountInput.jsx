@@ -11,7 +11,7 @@ const AmountInput =({value, onChange}) =>{
    id="amount"
    type="number"
    value={value}
-   onChange={(e) => onChange(parseFloat(e.target.value))} // parseFloat ensures the onChange handler receives a number
+   onChange={(e) => onChange(parseFloat(e.target.value) || 0)} // parseFloat ensures the onChange handler receives a number
    min="0"
    step="0.01"
    className="p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"/>

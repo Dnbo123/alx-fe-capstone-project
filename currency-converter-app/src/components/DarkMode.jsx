@@ -1,10 +1,10 @@
 import React from 'react'
 
-const DarkMode =({isDarkMode, onToggle}) => {
+const DarkMode =({ isDarkMode, onToggle}) => {
   return (
     <div className="flex items-center justify-end mb-4">
       <label htmlFor="darkModeToggle" className="mr-2 text-sm">
-        Drak Mode
+        Dark Mode
       </label>
       <div className="relative inline-block w-10 mr-2 align-middle select-none">
         <input 

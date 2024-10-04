@@ -4,25 +4,29 @@ import React, {useState,useEffect} from 'react'
 //import axios from 'axios';
 import CurrencySelector from './components/CurrencySelector.jsx';
 import AmountInput from './components/AmountInput.jsx';
-import ConversionResult from './components/ConversionResult.jSX';
+import ConversionResult from './components/ConversionResult.jsX';
 import HistoricalRates from './components/HistoricalRates.jsx';
 import DarkMode from './components/DarkMode.jsx';
 
 
-const API_KEY = import.meta.env.VITE_API_KEY;
+const API_KEY = '3a902d0a157e4c5e795ed257';
     
 
 const App = () => {
+  
 
   //Creating state variables
 
   const [fromCurrency, setFromCurrency] = useState('USD');
-  const [toCurrency, setToCurrency] = useState('EUR');
+  const [toCurrency, setToCurrency] = useState('KES');
   const [amount, setAmount] = useState(1);
   const [convertedAmount, setConvertedAmount] = useState("");
   const [isDarkMode, setIsDarkMode] = useState(false);
+  const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false)
-
+ 
+    
+ 
   // Function to swap the 'from' and 'to' currencies
   const handleSwapCurrencies = () => {
     setFromCurrency(toCurrency);
@@ -32,34 +36,37 @@ const App = () => {
 
   //Function to fetch the exchange rate and update the result
   const getExchangeRate = async () => {
-    const API_URL = `https://v6.exchangerate-api.com/v6/${API_KEY}/pair/${fromCurrency}/${toCurrency}`;
     
         setIsLoading(true);
+        setError(null); //For Reseting error before new fetch
     
         try {
-            const response = await fetch(API_URL);
-            if(!response.ok) throw Error("Something went wrong!");
+            const response = await fetch(`https://v6.exchangerate-api.com/v6/${API_KEY}/latest/${fromCurrency}`);
+            if(!response.ok) throw new Error("Something went wrong!");
     
             const data = await response.json();
-            const rate = (data.conversion_rate * amount).toFixed(2); //Sets the results of toFixed into 2 decimal points
+            const rate = (data.conversion_rates[toCurrency] * amount).toFixed(2); //Sets the results of toFixed into 2 decimal points
             setConvertedAmount(`${amount} ${fromCurrency} = ${rate} ${toCurrency}`);
         } catch (error) {
             console.error(error);
+            setError('Failed to fetch exchange Rate. Please try again later!')
         } finally {
             setIsLoading(false);
         }
       }
 
-      
+     /* 
   // Variable to handle form submission
 const handleFormSubmit = (e) => {
   e.preventDefault(); //prevents default form actions
   getExchangeRate();
 }
-
+*/
 
 //Fetch exchange rate initial render
-useEffect(() => getExchangeRate, []);
+useEffect(() => {
+  getExchangeRate();
+ }, [fromCurrency, toCurrency, amount]);
 
 
   /*
@@ -100,15 +107,16 @@ const darkContainer = `min-h-screen ${isDarkMode ? 'bg-gray-900 text-white' : 'b
   return (
     <div className={darkContainer}>
       <div className="continer mx-auto px-4 py-8">
-        <div className="bg-white dark:bg-gray-800 p-8 rounded-1g shadow-md max-w-md mx-auto">
-        <h1 className="tet-2xl font-bold mb-6 text-center">Don's Currency Converter</h1>
+        <div className={`bg-white dark:bg-gray-800 p-8 rounded-lg shadow-md max-w-md mx-auto transition-all duration-300`}>
+        <h1 className="text-2xl font-bold mb-6 text-center">Don's Currency Converter</h1>
         <DarkMode isDarkMode={isDarkMode} onToggle={handleDarkModeToggle} />
-     {Error && <div className="text-red-500 mb-4">{Error}</div>}
-     <form onchange={handleFormSubmit}>
+     {error && <div className="text-red-500 mb-4">{error}</div>}
+   
      <div className="space-y-4">
         <CurrencySelector 
+        selectedCurrency={fromCurrency}
         label="From"
-        value={fromCurrency}
+
        // onChange={handleFromCurrencyChange}
         handleCurrency={(e) => setFromCurrency(e.target.value)} // Update fromCurrency state
         />
@@ -124,18 +132,21 @@ const darkContainer = `min-h-screen ${isDarkMode ? 'bg-gray-900 text-white' : 'b
         </div>
 
        <CurrencySelector 
+selectedCurrency={toCurrency}
        label="To"
-       value={toCurrency}
+     
       // onChange={handleToCurrencyChange}
        handleCurrency={(e) => setToCurrency(e.target.value)} // Update fromCurrency state
        />
 
        <AmountInput 
-       type="number"
        value={amount}
        placeholder="Enter amount"
-       onChange={(e) => setAmount(e.target.value)} // Update amount state on input change
-       required
+       onChange={(value) => {
+        setAmount(value);
+        getExchangeRate(); // Fetch new rate whenever the amount changes
+      }}
+      required
        />
      
        <ConversionResult
@@ -143,22 +154,27 @@ const darkContainer = `min-h-screen ${isDarkMode ? 'bg-gray-900 text-white' : 'b
               toCurrency={toCurrency}
               amount={amount}
               convertedAmount={convertedAmount}
+              isLoading={isLoading} // Passed loadng state for better UX
             />
      
      <HistoricalRates
               fromCurrency={fromCurrency}
               toCurrency={toCurrency}
               apiKey={API_KEY}
-              apiBaseUrl={API_URL}
+              apiBaseUrl={`https://v6.exchangerate-api.com/v6/${API_KEY}`}
             />
      </div>
 
   {/* Submit button to trigger exchange rate fetch */}
-     <button type="Submit" className={`${isLoading ? "loading" : ""}`}>Get Exchange rate</button>
+     <button type="button" 
+      onClick={getExchangeRate} 
+      className={` ${isLoading ? "loading" : ""} mt-4 w-full py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition duration-300`}>
+      {isLoading ? "Fetching..." : "Get Exchange Rate"}
+      </button>
 
 {/* Display the exchange rate result if available */}
-     <p>{isLoading ? "Fetching exchange Rate" : convertedAmount}</p>
-     </form>
+     <p className="mt-4">{isLoading ? "Fetching exchange Rate" : convertedAmount}</p>
+
       </div>
     </div>
     </div>
