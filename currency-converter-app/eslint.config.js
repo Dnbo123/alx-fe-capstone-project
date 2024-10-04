@@ -33,6 +33,8 @@ export default [
         'warn',
         { allowConstantExport: true },
       ],
+       //Disabling React PropTypes in ESLint
+    "react/prop-types": "off"
     },
   },
 ]

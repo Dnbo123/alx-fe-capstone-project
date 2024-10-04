@@ -1,6 +1,6 @@
+import React from 'react';
 
-
-const ConversionResult =() => {
+const ConversionResult =({fromCurrency, toCurrency, amount, convertedAmount}) => {
   return (
     <div className="bg-gray-100 p-4 rounded-md">
       <h2 className="text-lg font-semibold mb-2">Results for Conversion</h2>
