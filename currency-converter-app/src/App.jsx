@@ -5,7 +5,6 @@ import React, {useState,useEffect} from 'react'
 import CurrencySelector from './components/CurrencySelector.jsx';
 import AmountInput from './components/AmountInput.jsx';
 import ConversionResult from './components/ConversionResult.jsX';
-import HistoricalRates from './components/HistoricalRates.jsx';
 import DarkMode from './components/DarkMode.jsx';
 
 
@@ -159,13 +158,7 @@ selectedCurrency={toCurrency}
               isLoading={isLoading} // Passed loadng state for better UX
             />
      
-     <HistoricalRates
-              fromCurrency={fromCurrency}
-              toCurrency={toCurrency}
-              apiKey={API_KEY}
-              apiBaseUrl={`https://v6.exchangerate-api.com/v6/${API_KEY}`}
-            />
-     </div>
+    
 
   {/* Submit button to trigger exchange rate fetch */}
      <button type="button" 
@@ -177,6 +170,7 @@ selectedCurrency={toCurrency}
 {/* Display the exchange rate result if available 
      <p className="mt-4">{isLoading ? "Fetching exchange Rate" : convertedAmount}</p> */}
 
+      </div>
       </div>
     </div>
     </div>
