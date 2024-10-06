@@ -56,7 +56,7 @@ if (error) {
            <LineChart data={historicalData}>
            <CartesianGrid strokeDasharray="3 3" stroke="#ddd"/>
           <XAxis dataKey="date" stroke="#aaa"/>
-          <YAxis stroke="#aaa"/>
+          <YAxis />
           <Tooltip />
           <Line type="monotone" dataKey="rate" stroke="#8884d8" />
            </LineChart>

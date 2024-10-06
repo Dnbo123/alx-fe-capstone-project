@@ -28,18 +28,18 @@ const CurrencySelector = ({selectedCurrency, label, handleCurrency}) => {
 const countryCode = selectedCurrency.substring(0, 2);
 
   return (
-    <div className="flex flex-col">
-      <label htmlFor={`currency-${label}`} className="mb-2 font-medium text-gray-700">
+    <div className="flex items-center space-x-2 mb-4">
+      <label htmlFor={`currency-${label}`} className=" font-medium text-gray-700 text-sm">
         {label}
         </label>
-    <div className="relative">
-    <img src={`https://flagsapi.com/${countryCode}/flat/64.png`} alt="flag"/>
+    <div className="flex items-center space-x-2">
+    <img src={`https://flagsapi.com/${countryCode}/flat/64.png`} alt="flag" className="w-6 h-4"/>
     <select
         id={`currency-${label}`}
         //Changing value of fromCurrency and toCurrency to selected currency code
         onChange= {handleCurrency}
         value={selectedCurrency}
-        className="p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+        className="p-1 border border-gray-300 rounded-md text-sm focus:ring-blue-500 focus:border-blue-500"
         >
           
           {currencyCodes.map(currency => (

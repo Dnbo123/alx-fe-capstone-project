@@ -20,7 +20,7 @@ const App = () => {
   const [fromCurrency, setFromCurrency] = useState('USD');
   const [toCurrency, setToCurrency] = useState('KES');
   const [amount, setAmount] = useState(1);
-  const [convertedAmount, setConvertedAmount] = useState("");
+  const [convertedAmount, setConvertedAmount] = useState('');
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false)
@@ -98,17 +98,19 @@ useEffect(()=>{
 //setting event handler functions to update states whenever user input changes
 //const handleFromCurrencyChange = (currency) => setFromCurrency(currency);
 //const handleToCurrencyChange = (currency) => setToCurrency(currency);
-const handleDarkModeToggle = () => setIsDarkMode(!isDarkMode);
+const handleDarkModeToggle = () => {
+  setIsDarkMode((prev) => !prev);
+};
 
 
 //Setting Dynamic class for dark Mode feature
 const darkContainer = `min-h-screen ${isDarkMode ? 'bg-gray-900 text-white' : 'bg-gray-100 text-gray-800'} transition-colors duration-300`;
 
   return (
-    <div className={darkContainer}>
-      <div className="continer mx-auto px-4 py-8">
-        <div className={`bg-white dark:bg-gray-800 p-8 rounded-lg shadow-md max-w-md mx-auto transition-all duration-300`}>
-        <h1 className="text-2xl font-bold mb-6 text-center">Don's Currency Converter</h1>
+    <div className={`h-screen flex items-center justify-center ${isDarkMode ? 'bg-gray-900' : 'bg-gradient-to-br from-[#89CFF0] to-white'}`}>
+      <div className="continer mx-auto px-4 py-4 max-w-md h-[80vh]">
+        <div className={`bg-white dark:bg-gray-800 p-7 rounded-lg shadow-xl max-w-md w-full transition-all duration-300`}>
+        <h1 className="text-xl font-bold mb-5 text-center">Don's Currency Converter</h1>
         <DarkMode isDarkMode={isDarkMode} onToggle={handleDarkModeToggle} />
      {error && <div className="text-red-500 mb-4">{error}</div>}
    
@@ -121,15 +123,15 @@ const darkContainer = `min-h-screen ${isDarkMode ? 'bg-gray-900 text-white' : 'b
         handleCurrency={(e) => setFromCurrency(e.target.value)} // Update fromCurrency state
         />
 
-{/* Currency swap button */}
-<div className="swap-icon" onClick={handleSwapCurrencies}>
+{/* Currency swap button 
+<div className="swap-icon flex justify-center" onClick={handleSwapCurrencies}>
           <svg width="16" viewBox="0 0 20 19" xmlns="http://www.w3.org/2000/svg">
             <path
               d="M19.13 11.66H.22a.22.22 0 0 0-.22.22v1.62a.22.22 0 0 0 .22.22h16.45l-3.92 4.94a.22.22 0 0 0 .17.35h1.97c.13 0 .25-.06.33-.16l4.59-5.78a.9.9 0 0 0-.7-1.43zM19.78 5.29H3.34L7.26.35A.22.22 0 0 0 7.09 0H5.12a.22.22 0 0 0-.34.16L.19 5.94a.9.9 0 0 0 .68 1.4H19.78a.22.22 0 0 0 .22-.22V5.51a.22.22 0 0 0-.22-.22z"
               fill="#fff"
             />
           </svg>
-        </div>
+        </div>*/}
 
        <CurrencySelector 
 selectedCurrency={toCurrency}
@@ -172,8 +174,8 @@ selectedCurrency={toCurrency}
       {isLoading ? "Fetching..." : "Get Exchange Rate"}
       </button>
 
-{/* Display the exchange rate result if available */}
-     <p className="mt-4">{isLoading ? "Fetching exchange Rate" : convertedAmount}</p>
+{/* Display the exchange rate result if available 
+     <p className="mt-4">{isLoading ? "Fetching exchange Rate" : convertedAmount}</p> */}
 
       </div>
     </div>
