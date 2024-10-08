@@ -28,6 +28,7 @@ const CurrencySelector = ({selectedCurrency, label, handleCurrency}) => {
 const countryCode = selectedCurrency.substring(0, 2);
 
   return (
+    
     <div className="flex items-center space-x-2 mb-5">
       <label htmlFor={`currency-${label}`} className=" font-large text-gray-700 text-lg">
         {label}
