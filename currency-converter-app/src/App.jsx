@@ -3,7 +3,7 @@
 import React, {useState,useEffect} from 'react'
 import CurrencySelector from './components/CurrencySelector.jsx';
 import AmountInput from './components/AmountInput.jsx';
-import ConversionResult from './components/ConversionResult.jsX';
+import ConversionResult from './components/ConversionResult.jsx';
 import DarkMode from './components/DarkMode.jsx';
 
 
