@@ -2,7 +2,7 @@ import React from 'react'
 
 const DarkMode =({ isDarkMode, onToggle}) => {
   return (
-    <div className="flex items-center justify-end mb-2">
+    <div className="flex items-center justify-end mb-3">
       <label htmlFor="darkModeToggle" className="mr-2 text-xs">
         Dark Mode
       </label>

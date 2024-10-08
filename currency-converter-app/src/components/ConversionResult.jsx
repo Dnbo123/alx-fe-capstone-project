@@ -1,9 +1,9 @@
 import React from 'react';
 
-const ConversionResult =({ fromCurrency, toCurrency, amount, convertedAmount, isLoading}) => {
+const ConversionResult =({ fromCurrency, amount, convertedAmount, isLoading}) => {
   return (
-    <div className="bg-gray-200 dark:bg-gray-700 p-3 rounded-md shadow-md transition-all duration-300 max-h-[150px]">
-      <h2 className="text-md font-medium mb-1">Results for Conversion</h2>
+    <div className="bg-gray-200 dark:bg-gray-700 p-3 rounded-md shadow-md transition-all duration-300 max-h-[180px]">
+      <h2 className="text-md font-lg mb-3">Results for Conversion</h2>
       {isLoading ? (
         <p className="text-sm text-gray-700 dark:text-gray-300">Fetching exchange rate...</p>
       ): (

@@ -64,9 +64,9 @@ const darkContainer = `min-h-screen ${isDarkMode ? 'bg-gray-900 text-white' : 'b
 
   return (
     <div className={`h-screen flex items-center justify-center ${isDarkMode ? 'bg-gray-900' : 'bg-gradient-to-br from-[#89CFF0] to-white'}`}>
-      <div className="continer mx-auto px-4 py-4 max-w-md h-[80vh]">
+      <div className="continer mx-auto px-5 py-5 max-w-2xl h-[90vh]">
         <div className={`bg-white dark:bg-gray-800 p-7 rounded-lg shadow-xl max-w-md w-full transition-all duration-300`}>
-        <h1 className="text-xl font-bold mb-5 text-center">Don's Currency Converter</h1>
+        <h1 className="text-xl font-bold mb-6 text-center">Don's Currency Converter</h1>
         <DarkMode isDarkMode={isDarkMode} onToggle={handleDarkModeToggle} />
      {error && <div className="text-red-500 mb-4">{error}</div>}
    
