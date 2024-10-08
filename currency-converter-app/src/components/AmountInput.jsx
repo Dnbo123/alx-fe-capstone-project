@@ -7,6 +7,7 @@ const AmountInput =({value, onChange}) =>{
 <label htmlFor="amount" className="mb-1 font-medium text-gray-700 text-sm">
   Enter Amount...
 </label>
+
 <input 
    id="amount"
    type="number"
