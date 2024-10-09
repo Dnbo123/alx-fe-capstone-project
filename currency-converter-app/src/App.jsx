@@ -6,14 +6,14 @@ import AmountInput from './components/AmountInput.jsx';
 import ConversionResult from './components/ConversionResult.jsx';
 import DarkMode from './components/DarkMode.jsx';
 
-
+//Echange rate api
 const API_KEY = '3a902d0a157e4c5e795ed257';
     
-
+//App component
 const App = () => {
   
 
-  //Creating state variables
+  //Creating state variables to store current state of the application
 
   const [fromCurrency, setFromCurrency] = useState('USD');
   const [toCurrency, setToCurrency] = useState('KES');
@@ -25,15 +25,20 @@ const App = () => {
  
 
   //Function to fetch the exchange rate and update the result
+  // (Called when the user changes the from or to currency, or amount)
   const getExchangeRate = async () => {
     
+    // Set the loading state to true to indicate that the application is loading the conversion result
         setIsLoading(true);
         setError(null); //For Reseting error before new fetch
     
         try {
+          // Fetch the exchange rate from the API
             const response = await fetch(`https://v6.exchangerate-api.com/v6/${API_KEY}/latest/${fromCurrency}`);
+            // Check if the response was successful
             if(!response.ok) throw new Error("Something went wrong!");
     
+             // Parse the response data as JSON
             const data = await response.json();
             const rate = (data.conversion_rates[toCurrency] * amount).toFixed(2); //Sets the results of toFixed into 2 decimal points
             setConvertedAmount(`${amount} ${fromCurrency} = ${rate} ${toCurrency}`);
@@ -41,6 +46,7 @@ const App = () => {
             console.error(error);
             setError('Failed to fetch exchange Rate. Please try again later!')
         } finally {
+          // Setting the loading state to false to indicate that the application has finished loading the conversion result
             setIsLoading(false);
         }
       }
@@ -55,6 +61,7 @@ useEffect(() => {
 
  
 const handleDarkModeToggle = () => {
+   // Toggle the dark mode state
   setIsDarkMode((prev) => !prev);
 };
 
@@ -63,6 +70,7 @@ const handleDarkModeToggle = () => {
 const darkContainer = `min-h-screen ${isDarkMode ? 'bg-gray-900 text-white' : 'bg-gray-100 text-gray-800'} transition-colors duration-300`;
 
   return (
+    // The main application container
     <div className={`h-screen flex items-center justify-center ${isDarkMode ? 'bg-gray-900' : 'bg-gradient-to-br from-[#89CFF0] to-white'}`}>
       <div className="continer mx-auto px-5 py-5 max-w-2xl h-[90vh]">
         <div className={`bg-white dark:bg-gray-800 p-7 rounded-lg shadow-xl max-w-md w-full transition-all duration-300`}>

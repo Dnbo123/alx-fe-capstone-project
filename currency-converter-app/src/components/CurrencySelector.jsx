@@ -21,19 +21,24 @@ const currencyCodes = [
   "ZWL"
 ];
 
-//Setting up currency selector arrow function
+//Setting up currency selector component
+// This component allows the user to select a currency from a dropdown list.
+// and takes three props: selectedCurrency, label, and handleCurrency.
 const CurrencySelector = ({selectedCurrency, label, handleCurrency}) => {
 
 //Extract the country code from the selected currency code
 const countryCode = selectedCurrency.substring(0, 2);
 
   return (
-    
+
     <div className="flex items-center space-x-2 mb-5">
+    {/* Label for the currency selector */}
       <label htmlFor={`currency-${label}`} className=" font-large text-gray-700 text-lg">
         {label}
         </label>
+         {/* Container for the flag and dropdown */}
     <div className="flex items-center space-x-2">
+     {/* Flag for the selected currency */}
     <img src={`https://flagsapi.com/${countryCode}/flat/64.png`} alt="flag" className="w-6 h-4"/>
     <select
         id={`currency-${label}`}
@@ -47,15 +52,6 @@ const countryCode = selectedCurrency.substring(0, 2);
             <option key={currency} value={currency}>{currency}</option> 
            ))}            
         </select>
-       
-       
-        {/*Creating a custom dropdown arrow
-        <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
-          <svg  className="w-4 h-4 fill-current" viewBox="0 0 20 20">
-          <path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" fillRule="evenodd"></path>
-          </svg>
-        </div>
-        */}
      </div>
     </div>
   );
