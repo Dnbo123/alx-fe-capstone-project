@@ -22,6 +22,14 @@ const App = () => {
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false)
+
+  const handleFromCurrencyChange = (value) => {
+    setFromCurrency(value);
+  };
+
+  const handleToCurrencyChange = (value) => {
+    setToCurrency(value);
+  };
  
 
   //Function to fetch the exchange rate and update the result
@@ -36,7 +44,7 @@ const App = () => {
           // Fetch the exchange rate from the API
             const response = await fetch(`https://v6.exchangerate-api.com/v6/${API_KEY}/latest/${fromCurrency}`);
             // Check if the response was successful
-            if(!response.ok) throw new Error("Something went wrong!");
+            if(!response.ok) throw new Error("Failed to load exchange rate!");
     
              // Parse the response data as JSON
             const data = await response.json();
@@ -65,10 +73,14 @@ const handleDarkModeToggle = () => {
   setIsDarkMode((prev) => !prev);
 };
 
+const handleAmountChange = (value) => {
+  setAmount(value);
+}
 
+/*
 //Setting Dynamic class for dark Mode feature
 const darkContainer = `min-h-screen ${isDarkMode ? 'bg-gray-900 text-white' : 'bg-gray-100 text-gray-800'} transition-colors duration-300`;
-
+*/
 //achieved mobile responsiveness through a series of tailwind css breakpoints that apply different styles based on the screen size.
   return (
     // The main application container
@@ -83,26 +95,20 @@ const darkContainer = `min-h-screen ${isDarkMode ? 'bg-gray-900 text-white' : 'b
         <CurrencySelector 
         selectedCurrency={fromCurrency}
         label="From"
-
-       // onChange={handleFromCurrencyChange}
-        handleCurrency={(e) => setFromCurrency(e.target.value)} // Update fromCurrency state
+        handleCurrency = {handleFromCurrencyChange}
         />
 
        <CurrencySelector 
-selectedCurrency={toCurrency}
+       selectedCurrency={toCurrency}
        label="To"
+       handleCurrency = {handleToCurrencyChange}
      
-      // onChange={handleToCurrencyChange}
-       handleCurrency={(e) => setToCurrency(e.target.value)} // Update fromCurrency state
        />
 
        <AmountInput 
        value={amount}
        placeholder="Enter amount"
-       onChange={(value) => {
-        setAmount(value);
-        getExchangeRate(); // Fetch new rate whenever the amount changes
-      }}
+       onChange={handleAmountChange}
       required
        />
      
@@ -117,10 +123,14 @@ selectedCurrency={toCurrency}
     
 
   {/* Submit button to trigger exchange rate fetch */}
-     <button type="button" 
+     <button
+      type="button" 
       onClick={getExchangeRate} 
-      className={` ${isLoading ? "loading" : ""} mt-4 w-full py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition duration-300`}>
-      {isLoading ? "Fetching..." : "Get Exchange Rate"}
+      className={`mt-4 w-full py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition duration-300
+         ${isLoading ? 'opacity-50 cursor-not-allowed' : ''}`} 
+         disabled={isLoading}
+         >
+           {isLoading ? "Fetching..." : "Get Exchange Rate"}
       </button>
 
       </div>
