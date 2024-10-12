@@ -77,10 +77,7 @@ const handleAmountChange = (value) => {
   setAmount(value);
 }
 
-/*
-//Setting Dynamic class for dark Mode feature
-const darkContainer = `min-h-screen ${isDarkMode ? 'bg-gray-900 text-white' : 'bg-gray-100 text-gray-800'} transition-colors duration-300`;
-*/
+
 //achieved mobile responsiveness through a series of tailwind css breakpoints that apply different styles based on the screen size.
   return (
     // The main application container
